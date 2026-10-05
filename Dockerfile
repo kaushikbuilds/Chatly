@@ -50,6 +50,10 @@ COPY --from=backend-builder /app/backend/dist ./dist
 # Frontend built files
 COPY --from=frontend-builder /app/frontend/dist ./public
 
+
+ARG VITE_CLERK_PUBLISHABLE_KEY
+ENV VITE_CLERK_PUBLISHABLE_KEY=$VITE_CLERK_PUBLISHABLE_KEY
+
 EXPOSE 5000
 
 CMD ["node", "dist/index.js"]
