@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist &&  cp -R src dist ",
+    "build": "node -e \"const fs=require('fs');fs.rmSync('dist',{recursive:true,force:true});fs.cpSync('src','dist',{recursive:true})\"",
     "dev": "nodemon src/index.js",
     "start": "node src/index.js"
   },
