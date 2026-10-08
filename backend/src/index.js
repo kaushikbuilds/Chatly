@@ -8,7 +8,7 @@ import { clerkMiddleware } from '@clerk/express'
 import cors  from "cors"
 import job from "./lib/cron.js"
 import { connectDB } from "./lib/db.js"
-import User from './models/user.model.js'
+import User from "./models/user.model.js"
 import clerkWebhooks from "./webhook/clerk.webhook.js"
 
 const app = express()
