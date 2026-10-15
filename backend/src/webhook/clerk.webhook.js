@@ -16,27 +16,8 @@ router.post(
         return res.status(500).json({ message: "Webhook secret is missing" });
       }
 
-      if (!Buffer.isBuffer(req.body)) {
-        return res
-          .status(400)
-          .json({ message: "Raw webhook body is required" });
-      }
-
-      // Sirf svix headers copy karo
-      const headers = new Headers();
-      for (const name of ["svix-id", "svix-timestamp", "svix-signature"]) {
-        const value = req.headers[name];
-        if (value) headers.set(name, value);
-      }
-      headers.set("content-type", "application/json");
-
-      const request = new Request("http://localhost/api/webhooks/clerk", {
-        method: "POST",
-        headers,
-        body: req.body.toString("utf8"),
-      });
-
-      const event = await verifyWebhook(request, { signingSecret });
+      // Seedha Express ka req do, manual Request/Headers nahi
+      const event = await verifyWebhook(req, { signingSecret });
 
       console.log("Clerk event:", event.type);
 
@@ -58,7 +39,6 @@ router.post(
 
         if (!email || !fullName) {
           console.error("Missing email or name:", clerkUser.id);
-          // 200 dete hain taaki Clerk baar baar retry na kare
           return res.status(200).json({ skipped: true });
         }
 
