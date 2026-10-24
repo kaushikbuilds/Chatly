@@ -9,6 +9,7 @@ import { connectDB } from "./lib/db.js";
 import clerkWebhooks from "./webhook/clerk.webhook.js";
 import authRoutes from "./routes/auth.routes.js";
 import messagesRoutes from "./routes/messages.routes.js";
+import { server } from "./lib/socket.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 const FRONTEND_URL = process.env.FRONTEND_URL;
@@ -39,7 +40,7 @@ if (fs.existsSync(publicDir)) {
   });
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   connectDB();
   console.log("server is up and running on PORT:", PORT);
 
