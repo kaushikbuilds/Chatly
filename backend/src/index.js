@@ -8,15 +8,13 @@ import job from "./lib/cron.js";
 import { connectDB } from "./lib/db.js";
 import clerkWebhooks from "./webhook/clerk.webhook.js";
 import authRoutes from "./routes/auth.routes.js";
-
+import messagesRoutes from "./routes/messages.routes.js";
 const app = express();
 const PORT = process.env.PORT || 3000;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const publicDir = path.join(process.cwd(), "public");
 
-// Webhook sabse pehle, express.json() se upar.
-// express.raw already clerk.webhook.js ke router me laga hai.
 app.use("/api/webhooks/clerk", clerkWebhooks);
 
 app.use(express.json());
@@ -29,6 +27,7 @@ app.get("/health", (req, res) => {
 
 
 app.use("/api/auth", authRoutes);
+app.use("/api/messages", messagesRoutes);
 
 if (fs.existsSync(publicDir)) {
   app.use(express.static(publicDir));
