@@ -8,7 +8,7 @@ export const WALLPAPERS = [
     id: "sonoma-horizon",
     category: "desktop",
     label: "Sonoma Horizon",
-    url: "/wallpapers/sonoma-horizon.jpg",
+    url: "/wallpapers/Neon Wave Interface Wallpaper.png",
   },
   {
     id: "redwoods",

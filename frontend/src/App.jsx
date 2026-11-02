@@ -1,26 +1,32 @@
 import { WallpaperProvider } from "./context/WallpaperContext";
-import { ThemeProvider } from './context/ThemeContext';
-import { replace, Route, Routes } from 'react-router';
+import { ThemeProvider } from "./context/ThemeContext";
+import { Navigate, Route, Routes } from "react-router";
+import {PageLoader} from "./components/PageLoader";
 import ChatPage from "./pages/ChatPage";
-import AuthPage from './pages/AuthPage';
-import {useAuth} from "@clerk/react"
-
+import AuthPage from "./pages/AuthPage";
+import { useAuth } from "@clerk/react";
 
 function App() {
+  const { isSignedIn, isLoaded } = useAuth();
 
-  const {isSignedIn, isLoaded} = useAuth ();
+  if (!isLoaded) return <PageLoader/>
 
-  if(!isLoaded) return <p>loading...</p>
   return (
     <ThemeProvider>
       <WallpaperProvider>
         <Routes>
-          <Route path='/' element={ isSignedIn ? <ChatPage /> : <Navigation to={"/auth"} replace />  } />
-          <Route path='/auth' element={ isSignedIn ? <AuthPage /> : <Navigation to={"/chat"} replace />  } />
+          <Route
+            path="/"
+            element={isSignedIn ? <ChatPage /> : <Navigate to="/auth" replace />}
+          />
+          <Route
+            path="/auth"
+            element={!isSignedIn ? <AuthPage /> : <Navigate to="/" replace />}
+          />
         </Routes>
       </WallpaperProvider>
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;
